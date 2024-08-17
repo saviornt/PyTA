@@ -2,6 +2,47 @@ import pandas as pd
 import numpy as np
 from scipy.stats import norm
 
+def DELTA(price: float, strike: float, time_to_expiry: float, risk_free_rate: float, 
+          volatility: float, is_call: bool=True) -> float:
+    """
+    Calculate Delta of an option.
+
+    Delta measures the rate of change of the option's price with respect to changes in the underlying asset's price.
+
+    Parameters:
+    - price (float): The current price of the underlying asset.
+    - strike (float): The strike price of the option.
+    - time_to_expiry (float): The time to expiry in years.
+    - risk_free_rate (float): The risk-free interest rate.
+    - volatility (float): The implied volatility of the option.
+    - is_call (bool): Whether the option is a call option (True) or a put option (False).
+
+    Returns:
+    - float: The Delta of the option.
+    """
+    d1 = (np.log(price / strike) + (risk_free_rate + 0.5 * volatility ** 2) * time_to_expiry) / (volatility * np.sqrt(time_to_expiry))
+    return norm.cdf(d1) if is_call else norm.cdf(d1) - 1
+
+def GAMMA(price: float, strike: float, time_to_expiry: float, risk_free_rate: float, 
+          volatility: float) -> float:
+    """
+    Calculate Gamma of an option.
+
+    Gamma measures the rate of change of Delta with respect to changes in the underlying asset's price.
+
+    Parameters:
+    - price (float): The current price of the underlying asset.
+    - strike (float): The strike price of the option.
+    - time_to_expiry (float): The time to expiry in years.
+    - risk_free_rate (float): The risk-free interest rate.
+    - volatility (float): The implied volatility of the option.
+
+    Returns:
+    - float: The Gamma of the option.
+    """
+    d1 = (np.log(price / strike) + (risk_free_rate + 0.5 * volatility ** 2) * time_to_expiry) / (volatility * np.sqrt(time_to_expiry))
+    return norm.pdf(d1) / (price * volatility * np.sqrt(time_to_expiry))
+
 def HV(prices: np.ndarray, window: int=252) -> float:
     """
     Calculate Historical Volatility (HV) over a given window.
@@ -68,9 +109,6 @@ def IVBINOMIAL(price: float, strike: float, time_to_expiry: float,
     
     return sigma * 100  # Return as percentage
 
-from scipy.stats import norm
-import numpy as np
-
 def IVBLACKSCHOLES(price: float, strike: float, time_to_expiry: float,
                                      risk_free_rate: float, option_price: float, 
                                      is_call: bool=True, max_iterations: int=100, tol: float=1e-5) -> float:
@@ -134,6 +172,82 @@ def PCR(put_volume: float, call_volume: float) -> float:
         raise ValueError("Call volume cannot be zero.")
     
     return put_volume / call_volume
+
+def RHO(price: float, strike: float, time_to_expiry: float, risk_free_rate: float, 
+        volatility: float, is_call: bool=True) -> float:
+    """
+    Calculate Rho of an option.
+
+    Rho measures the rate of change of the option's price with respect to changes in the risk-free interest rate.
+
+    Parameters:
+    - price (float): The current price of the underlying asset.
+    - strike (float): The strike price of the option.
+    - time_to_expiry (float): The time to expiry in years.
+    - risk_free_rate (float): The risk-free interest rate.
+    - volatility (float): The implied volatility of the option.
+    - is_call (bool): Whether the option is a call option (True) or a put option (False).
+
+    Returns:
+    - float: The Rho of the option.
+    """
+    d2 = (np.log(price / strike) + (risk_free_rate - 0.5 * volatility ** 2) * time_to_expiry) / (volatility * np.sqrt(time_to_expiry))
+    
+    if is_call:
+        return strike * time_to_expiry * np.exp(-risk_free_rate * time_to_expiry) * norm.cdf(d2) * 0.01  # Per 1% change in rates
+    else:
+        return -strike * time_to_expiry * np.exp(-risk_free_rate * time_to_expiry) * norm.cdf(-d2) * 0.01
+
+
+def THETA(price: float, strike: float, time_to_expiry: float, risk_free_rate: float, 
+          volatility: float, is_call: bool=True) -> float:
+    """
+    Calculate Theta of an option.
+
+    Theta measures the rate of change of the option's price with respect to the passage of time.
+
+    Parameters:
+    - price (float): The current price of the underlying asset.
+    - strike (float): The strike price of the option.
+    - time_to_expiry (float): The time to expiry in years.
+    - risk_free_rate (float): The risk-free interest rate.
+    - volatility (float): The implied volatility of the option.
+    - is_call (bool): Whether the option is a call option (True) or a put option (False).
+
+    Returns:
+    - float: The Theta of the option.
+    """
+    d1 = (np.log(price / strike) + (risk_free_rate + 0.5 * volatility ** 2) * time_to_expiry) / (volatility * np.sqrt(time_to_expiry))
+    d2 = d1 - volatility * np.sqrt(time_to_expiry)
+    first_term = -(price * norm.pdf(d1) * volatility) / (2 * np.sqrt(time_to_expiry))
+    
+    if is_call:
+        second_term = risk_free_rate * strike * np.exp(-risk_free_rate * time_to_expiry) * norm.cdf(d2)
+    else:
+        second_term = -risk_free_rate * strike * np.exp(-risk_free_rate * time_to_expiry) * norm.cdf(-d2)
+    
+    return (first_term + second_term) / 365  # Convert to daily decay
+
+def VEGA(price: float, strike: float, time_to_expiry: float, risk_free_rate: float, 
+         volatility: float) -> float:
+    """
+    Calculate Vega of an option.
+
+    Vega measures the rate of change of the option's price with respect to changes in the volatility of the underlying asset.
+
+    Parameters:
+    - price (float): The current price of the underlying asset.
+    - strike (float): The strike price of the option.
+    - time_to_expiry (float): The time to expiry in years.
+    - risk_free_rate (float): The risk-free interest rate.
+    - volatility (float): The implied volatility of the option.
+
+    Returns:
+    - float: The Vega of the option.
+    """
+    d1 = (np.log(price / strike) + (risk_free_rate + 0.5 * volatility ** 2) * time_to_expiry) / (volatility * np.sqrt(time_to_expiry))
+    return price * norm.pdf(d1) * np.sqrt(time_to_expiry) * 0.01  # Vega is usually reported per 1% change in volatility
+
 
 def VS(ivs: dict, strikes: list, atm_strike: float) -> float:
     """
