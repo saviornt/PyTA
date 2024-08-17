@@ -1,5 +1,5 @@
 # PyTA
-PyTA is a modern, user-friendly alternative to TA-Lib for technical analysis leveraging pandas, numpy and scipy for ease of use. Designed to be compatible with Python 3.10 and later, PyTA provides a comprehensive set of financial indicators and tools without the need for third-party build tools or outdated library versions. Ideal for developers and analysts seeking a straightforward and maintainable solution for technical analysis in financial data.
+PyTA is a modern, user-friendly alternative to TA-Lib for technical analysis leveraging pandas, numpy and scipy for ease of use. Designed to be compatible with Python 3.10 and later, PyTA provides a comprehensive set of financial indicators and tools without the need for third-party build tools or outdated library versions. Ideal for developers and analysts seeking a straightforward and maintainable solution for the technical analysis of financial data.
 
 # Installation
 From your terminal, use pip to install with the following command:<br/>
