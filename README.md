@@ -1,2 +1,2 @@
 # PyTA
-PyTA is a Python library for technical analysis, offering a range of functions to compute indicators like moving averages, momentum, volatility, and patterns. Designed as a user-friendly alternative to TA-Lib, it leverages pandas and numpy for ease of use.
+PyTA is a modern, user-friendly alternative to TA-Lib for technical analysis leveraging pandas, numpy and scipy for ease of use. Designed to be compatible with Python 3.10 and later, PyTA provides a comprehensive set of financial indicators and tools without the need for third-party build tools or outdated library versions. Ideal for developers and analysts seeking a straightforward and maintainable solution for technical analysis in financial data.
