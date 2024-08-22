@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from column_case_solver import solve_case
 
 def EMA(data, span=20, adjust=False):
     """
@@ -13,6 +14,7 @@ def EMA(data, span=20, adjust=False):
     Returns:
         pd.Series: A pandas Series representing the EMA values for the given span.
     """
+    data = solve_case(data)
     ema = data['Close'].ewm(span=span, adjust=adjust).mean()
     return ema
 
@@ -27,6 +29,7 @@ def SMMA(data, window=20):
     Returns:
         pd.Series: A pandas Series representing the SMMA values for the given window.
     """
+    data = solve_case(data)
     smma = data['Close'].ewm(span=window, adjust=False).mean()
     return smma
 
@@ -42,6 +45,7 @@ def BBANDS(data, window=20, num_std_dev=2):
     Returns:
         pd.DataFrame: DataFrame with 'Middle Band', 'Upper Band', and 'Lower Band'.
     """
+    data = solve_case(data)
     sma = data['Close'].rolling(window=window).mean()
     std_dev = data['Close'].rolling(window=window).std()
     upper_band = sma + (std_dev * num_std_dev)
@@ -63,6 +67,7 @@ def DEMA(data, span=20):
     Returns:
         pd.Series: A pandas Series representing the DEMA values.
     """
+    data = solve_case(data)
     ema = data['Close'].ewm(span=span, adjust=False).mean()
     dema = 2 * ema - ema.ewm(span=span, adjust=False).mean()
     return dema
@@ -80,6 +85,7 @@ def KAMA(data, window=10, fast_ema=2, slow_ema=30):
     Returns:
         pd.Series: A pandas Series representing the KAMA.
     """
+    data = solve_case(data)
     change = data['Close'].diff(window).abs()
     volatility = data['Close'].diff().abs().rolling(window=window).sum()
     er = change / volatility
@@ -112,6 +118,7 @@ def MAMA(data, fast_limit=0.5, slow_limit=0.05):
     Returns:
         pd.Series: A pandas Series representing the MAMA.
     """
+    data = solve_case(data)
     return data['Close'].ewm(span=10, adjust=False).mean()  # Simplified version
 
 def MAVP(data, periods):
@@ -125,6 +132,7 @@ def MAVP(data, periods):
     Returns:
         pd.Series: A pandas Series representing the MAVP.
     """
+    data = solve_case(data)
     mavp = data['Close'].rolling(window=periods).mean()
     return mavp
 
@@ -139,6 +147,7 @@ def MIDPOINT(data, window=14):
     Returns:
         pd.Series: A pandas Series representing the midpoint values.
     """
+    data = solve_case(data)
     return (data['High'] + data['Low']).rolling(window=window).mean() / 2
 
 def MIDPRICE(data, window=14):
@@ -152,6 +161,7 @@ def MIDPRICE(data, window=14):
     Returns:
         pd.Series: A pandas Series representing the midpoint price values.
     """
+    data = solve_case(data)
     return (data['High'] + data['Low']).rolling(window=window).mean()
 
 def SAR(data, af=0.02, max_af=0.2):
@@ -166,6 +176,7 @@ def SAR(data, af=0.02, max_af=0.2):
     Returns:
         pd.Series: A pandas Series representing the SAR values.
     """
+    data = solve_case(data)
     sar = data['Low'][0]  # Simplified implementation (more advanced logic required)
     trend = 1  # 1 = uptrend, -1 = downtrend
     for i in range(1, len(data)):
@@ -197,6 +208,7 @@ def SAREXT(data, af_start=0.02, af_increment=0.02, af_max=0.2):
     Returns:
         pd.Series: A pandas Series representing the SAREXT values.
     """
+    data = solve_case(data)
     sar = data['Low'][0]  # Simplified implementation (more advanced logic required)
     trend = 1  # 1 = uptrend, -1 = downtrend
     af = af_start
@@ -232,6 +244,7 @@ def SMA(data, window=20):
     Returns:
         pd.Series: A pandas Series representing the SMA values for the given window.
     """
+    data = solve_case(data)
     sma = data['Close'].rolling(window=window).mean()
     return sma
 
@@ -247,6 +260,7 @@ def T3(data, period=5, vfactor=0.7):
     Returns:
         pd.Series: A pandas Series representing the T3 values.
     """
+    data = solve_case(data)
     ema1 = data['Close'].ewm(span=period, adjust=False).mean()
     ema2 = ema1.ewm(span=period, adjust=False).mean()
     ema3 = ema2.ewm(span=period, adjust=False).mean()
@@ -270,6 +284,7 @@ def TEMA(data, span=20):
     Returns:
         pd.Series: A pandas Series representing the TEMA values.
     """
+    data = solve_case(data)
     ema1 = data['Close'].ewm(span=span, adjust=False).mean()
     ema2 = ema1.ewm(span=span, adjust=False).mean()
     ema3 = ema2.ewm(span=span, adjust=False).mean()
@@ -286,6 +301,7 @@ def HT_TRENDLINE(data):
     Returns:
         pd.Series: A pandas Series representing the HT_TRENDLINE values.
     """
+    data = solve_case(data)
     close = data['Close']
     n = len(close)
     smooth_price = pd.Series(np.zeros(n))
@@ -325,6 +341,7 @@ def WMA(data, window=20):
     Returns:
         pd.Series: A pandas Series representing the WMA values for the given window.
     """
+    data = solve_case(data)
     weights = np.arange(1, window + 1)
     wma = data['Close'].rolling(window=window).apply(lambda prices: np.dot(prices, weights) / weights.sum(), raw=True)
     return wma

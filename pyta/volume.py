@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from column_case_solver import solve_case
 
 def AD(high, low, close, volume):
     """
@@ -28,11 +29,12 @@ def ADL(data):
     Returns:
         pd.Series: A pandas Series representing the ADL values.
     """
+    data = solve_case(data)
     clv = ((data['Close'] - data['Low']) - (data['High'] - data['Close'])) / (data['High'] - data['Low'])
     adl = (clv * data['Volume']).cumsum()
     return pd.Series(adl, name='ADL')
 
-def ADOSC(high, low, close, volume, short_period=3, long_period=10):
+def ADOSC(data, short_period=3, long_period=10):
     """
     Calculate the Chaikin A/D Oscillator (ADOSC).
 
@@ -47,7 +49,8 @@ def ADOSC(high, low, close, volume, short_period=3, long_period=10):
     Returns:
         pd.Series: A pandas Series representing the ADOSC values.
     """
-    ad_line = AD(high, low, close, volume)
+    data = solve_case(data)
+    ad_line = AD(data['High'], data['Low'], data['Close'], data['Volume'])
     adosc = ad_line.rolling(window=short_period).mean() - ad_line.rolling(window=long_period).mean()
     return adosc
 
@@ -61,6 +64,7 @@ def OBV(data):
     Returns:
         pd.Series: A pandas Series representing the OBV values.
     """
+    data = solve_case(data)
     obv = np.where(data['Close'] > data['Close'].shift(1), data['Volume'],
                    np.where(data['Close'] < data['Close'].shift(1), -data['Volume'], 0)).cumsum()
     return pd.Series(obv, name='OBV')
@@ -75,6 +79,7 @@ def VWAP(data):
     Returns:
         pd.Series: A pandas Series representing the VWAP values.
     """
+    data = solve_case(data)
     typical_price = (data['High'] + data['Low'] + data['Close']) / 3
     vwap = (typical_price * data['Volume']).cumsum() / data['Volume'].cumsum()
     return pd.Series(vwap, name='VWAP')

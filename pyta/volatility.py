@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from column_case_solver import solve_case
 
 def ATR(data, period=14):
     """
@@ -12,6 +13,7 @@ def ATR(data, period=14):
     Returns:
         pd.Series: A pandas Series representing the ATR values.
     """
+    data = solve_case(data)
     high_low = data['High'] - data['Low']
     high_close = np.abs(data['High'] - data['Close'].shift())
     low_close = np.abs(data['Low'] - data['Close'].shift())
@@ -31,6 +33,7 @@ def NATR(data, window=14):
     Returns:
         pd.Series: A pandas Series representing the normalized average true range values.
     """
+    data = solve_case(data)
     tr = TRANGE(data)
     atr = tr.rolling(window=window).mean()
     natr = atr / data['Close'].rolling(window=window).mean() * 100
@@ -46,6 +49,7 @@ def TRANGE(data):
     Returns:
         pd.Series: A pandas Series representing the true range values.
     """
+    data = solve_case(data)
     high_low = data['High'] - data['Low']
     high_prev_close = (data['High'] - data['Close'].shift()).abs()
     low_prev_close = (data['Low'] - data['Close'].shift()).abs()

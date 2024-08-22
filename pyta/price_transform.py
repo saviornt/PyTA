@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from column_case_solver import solve_case
 
 def AVGPRICE(data):
     """
@@ -11,6 +12,7 @@ def AVGPRICE(data):
     Returns:
         pd.Series: A pandas Series representing the average price.
     """
+    data = solve_case(data)
     return (data['High'] + data['Low'] + data['Close']) / 3
 
 def MEDPRICE(data):
@@ -23,6 +25,7 @@ def MEDPRICE(data):
     Returns:
         pd.Series: A pandas Series representing the median price.
     """
+    data = solve_case(data)
     return (data['High'] + data['Low']) / 2
 
 def PP(data):
@@ -34,6 +37,7 @@ def PP(data):
     Returns:
         pd.DataFrame: A DataFrame with Pivot Point (PP), and support (S1, S2, S3) and resistance (R1, R2, R3) levels.
     """
+    data = solve_case(data)
     pivot = (data['High'].shift(1) + data['Low'].shift(1) + data['Close'].shift(1)) / 3
     resistance1 = (2 * pivot) - data['Low'].shift(1)
     support1 = (2 * pivot) - data['High'].shift(1)
@@ -58,6 +62,7 @@ def TYPPRICE(data):
     Returns:
         pd.Series: A pandas Series representing the typical price.
     """
+    data = solve_case(data)
     return (data['High'] + data['Low'] + data['Close']) / 3
 
 def WCLPRICE(data):
@@ -70,4 +75,5 @@ def WCLPRICE(data):
     Returns:
         pd.Series: A pandas Series representing the weighted close price.
     """
+    data = solve_case(data)
     return (data['High'] + data['Low'] * 2 + data['Close']) / 4

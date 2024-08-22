@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy.stats import linregress
+from column_case_solver import solve_case
 
 def BETA(data, market_data, window=20):
     """
@@ -14,6 +15,7 @@ def BETA(data, market_data, window=20):
     Returns:
         pd.Series: A pandas Series representing the Beta values.
     """
+    data = solve_case(data)
     returns = data['Close'].pct_change()
     market_returns = market_data['Close'].pct_change()
     
@@ -35,6 +37,7 @@ def CORREL(data, market_data, window=20):
     Returns:
         pd.Series: A pandas Series representing the correlation coefficient.
     """
+    data = solve_case(data)
     returns = data['Close'].pct_change()
     market_returns = market_data['Close'].pct_change()
     
@@ -52,6 +55,7 @@ def LINEARREG(data, window=20):
     Returns:
         pd.Series: A pandas Series representing the linear regression values.
     """
+    data = solve_case(data)
     rolling_window = data['Close'].rolling(window=window)
     linear_reg = rolling_window.apply(lambda x: linregress(np.arange(len(x)), x)[0] * len(x) + linregress(np.arange(len(x)), x)[1], raw=True)
     return linear_reg
@@ -67,6 +71,7 @@ def LINEARREG_ANGLE(data, window=20):
     Returns:
         pd.Series: A pandas Series representing the angle of the linear regression line in degrees.
     """
+    data = solve_case(data)
     rolling_window = data['Close'].rolling(window=window)
     angle = rolling_window.apply(lambda x: np.degrees(np.arctan(linregress(np.arange(len(x)), x)[0])), raw=True)
     return angle
@@ -82,6 +87,7 @@ def LINEARREG_INTERCEPT(data, window=20):
     Returns:
         pd.Series: A pandas Series representing the intercept of the linear regression line.
     """
+    data = solve_case(data)
     rolling_window = data['Close'].rolling(window=window)
     intercept = rolling_window.apply(lambda x: linregress(np.arange(len(x)), x)[1], raw=True)
     return intercept
@@ -97,6 +103,7 @@ def LINEARREG_SLOPE(data, window=20):
     Returns:
         pd.Series: A pandas Series representing the slope of the linear regression line.
     """
+    data = solve_case(data)
     rolling_window = data['Close'].rolling(window=window)
     slope = rolling_window.apply(lambda x: linregress(np.arange(len(x)), x)[0], raw=True)
     return slope
@@ -112,6 +119,7 @@ def STDDEV(data, window=20):
     Returns:
         pd.Series: A pandas Series representing the standard deviation values.
     """
+    data = solve_case(data)
     stddev = data['Close'].rolling(window=window).std()
     return stddev
 
@@ -126,6 +134,7 @@ def TSF(data, period=14):
     Returns:
         pd.Series: A pandas Series representing the time series forecast values.
     """
+    data = solve_case(data)
     rolling_window = data['Close'].rolling(window=period)
     tsf = rolling_window.apply(lambda x: linregress(np.arange(len(x)), x)[0] * (len(x) + period - 1) + linregress(np.arange(len(x)), x)[1], raw=True)
     return tsf
@@ -141,5 +150,6 @@ def VAR(data, window=20):
     Returns:
         pd.Series: A pandas Series representing the variance values.
     """
+    data = solve_case(data)
     var = data['Close'].rolling(window=window).var()
     return var

@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from column_case_solver import solve_case
 
 def CDL2CROWS(data):
     """
@@ -11,6 +12,7 @@ def CDL2CROWS(data):
     Returns:
         pd.Series: A pandas Series indicating where the Two Crows pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Close'].shift(1) > data['Open'].shift(1)) &
@@ -30,6 +32,7 @@ def CDL3BLACKCROWS(data):
     Returns:
         pd.Series: A pandas Series indicating where the Three Black Crows pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Close'].shift(2) < data['Open'].shift(2)) &
@@ -49,6 +52,7 @@ def CDL3INSIDE(data):
     Returns:
         pd.Series: A pandas Series indicating where the Three Inside Up/Down pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(2) < data['Open'].shift(2)) &
         (data['Open'].shift(1) > data['Close'].shift(1)) &
@@ -68,6 +72,7 @@ def CDL3LINESTRIKE(data):
     Returns:
         pd.Series: A pandas Series indicating where the Three-Line Strike pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(3) < data['Open'].shift(3)) &
         (data['Close'].shift(2) < data['Open'].shift(2)) &
@@ -87,6 +92,7 @@ def CDL3OUTSIDE(data):
     Returns:
         pd.Series: A pandas Series indicating where the Three Outside Up/Down pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(2) < data['Open'].shift(2)) &
         (data['Open'].shift(1) > data['Close'].shift(1)) &
@@ -106,6 +112,7 @@ def CDL3STARSINSOUTH(data):
     Returns:
         pd.Series: A pandas Series indicating where the Three Stars In The South pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(2) < data['Open'].shift(2)) &
         (data['Close'].shift(1) < data['Open'].shift(1)) &
@@ -125,6 +132,7 @@ def CDL3WHITESOLDIERS(data):
     Returns:
         pd.Series: A pandas Series indicating where the Three Advancing White Soldiers pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Close'].shift(2) > data['Open'].shift(2)) &
@@ -144,6 +152,7 @@ def CDLABANDONEDBABY(data):
     Returns:
         pd.Series: A pandas Series indicating where the Abandoned Baby pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(2) < data['Open'].shift(2)) &
         (data['Open'].shift(1) > data['Close'].shift(1)) &
@@ -162,6 +171,7 @@ def CDLADVANCEBLOCK(data):
     Returns:
         pd.Series: A pandas Series indicating where the Advance Block pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(2) < data['Open'].shift(2)) &
         (data['Close'].shift(1) < data['Open'].shift(1)) &
@@ -180,6 +190,7 @@ def CDLBELTHOLD(data):
     Returns:
         pd.Series: A pandas Series indicating where the Belt-hold pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] < data['Open']) &
         (data['Close'] < data['Close'].shift(1)) &
@@ -196,6 +207,7 @@ def CDLBREAKAWAY(data):
     Returns:
         pd.Series: A pandas Series indicating where the Breakaway pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(4) < data['Open'].shift(4)) &
         (data['Close'].shift(3) < data['Open'].shift(3)) &
@@ -214,6 +226,7 @@ def CDLCLOSINGMARUBOZU(data):
     Returns:
         pd.Series: A pandas Series indicating where the Closing Marubozu pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Open'] == data['Low']) &
         (data['Close'] == data['High'])
@@ -229,6 +242,7 @@ def CDLCONCEALBABYSWALL(data):
     Returns:
         pd.Series: A pandas Series indicating where the Concealing Baby Swallow pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(2) < data['Open'].shift(2)) &
         (data['Open'].shift(1) > data['Close'].shift(1)) &
@@ -247,6 +261,7 @@ def CDLCOUNTERATTACK(data):
     Returns:
         pd.Series: A pandas Series indicating where the Counterattack pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Open'] > data['Close']) &
@@ -264,6 +279,7 @@ def CDLDARKCLOUDCOVER(data):
     Returns:
         pd.Series: A pandas Series indicating where the Dark Cloud Cover pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Open'] > data['Close']) &
@@ -282,6 +298,7 @@ def CDLDOJI(data):
     Returns:
         pd.Series: A pandas Series indicating where the Doji pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] == data['Open']) &
         (data['High'] - data['Close'] < (data['Close'] - data['Open']) * 0.1) &
@@ -298,6 +315,7 @@ def CDLDOJISTAR(data):
     Returns:
         pd.Series: A pandas Series indicating where the Doji Star pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Close'] < data['Open']) &
@@ -315,6 +333,7 @@ def CDLDRAGONFLYDOJI(data):
     Returns:
         pd.Series: A pandas Series indicating where the Dragonfly Doji pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] == data['Open']) &
         (data['Low'] < data['Open']) &
@@ -331,6 +350,7 @@ def CDLENGULFING(data):
     Returns:
         pd.Series: A pandas Series indicating where the Engulfing Pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Open'].shift(1) < data['Close'].shift(1)) &
         (data['Close'] > data['Open']) &
@@ -348,6 +368,7 @@ def CDLEVENINGDOJISTAR(data):
     Returns:
         pd.Series: A pandas Series indicating where the Evening Doji Star pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Close'] < data['Open']) &
@@ -365,6 +386,7 @@ def CDLEVENINGSTAR(data):
     Returns:
         pd.Series: A pandas Series indicating where the Evening Star pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Open'] > data['Close']) &
@@ -382,6 +404,7 @@ def CDLGAPSIDESIDEWHITE(data):
     Returns:
         pd.Series: A pandas Series indicating where the Up/Down-gap side-by-side white lines pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Close'] > data['Open']) &
@@ -398,6 +421,7 @@ def CDLGRAVESTONEDOJI(data):
     Returns:
         pd.Series: A pandas Series indicating where the Gravestone Doji pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] == data['Open']) &
         (data['High'] > data['Open']) &
@@ -414,6 +438,7 @@ def CDLHAMMER(data):
     Returns:
         pd.Series: A pandas Series indicating where the Hammer pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] > data['Open']) &
         (data['Low'] < data['Open']) &
@@ -430,6 +455,7 @@ def CDLHANGINGMAN(data):
     Returns:
         pd.Series: A pandas Series indicating where the Hanging Man pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] < data['Open']) &
         (data['Low'] < data['Open']) &
@@ -446,6 +472,7 @@ def CDLHARAMI(data):
     Returns:
         pd.Series: A pandas Series indicating where the Harami Pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Open'].shift(1) > data['Close'].shift(1)) &
         (data['Close'] > data['Open']) &
@@ -463,6 +490,7 @@ def CDLHARAMICROSS(data):
     Returns:
         pd.Series: A pandas Series indicating where the Harami Cross Pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Close'] == data['Open']) &
@@ -480,6 +508,7 @@ def CDLHIGHWAVE(data):
     Returns:
         pd.Series: A pandas Series indicating where the High-Wave Candle pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['High'] - data['Close'] > (data['Close'] - data['Open']) * 1.5) &
         (data['Open'] - data['Low'] > (data['Close'] - data['Open']) * 1.5)
@@ -495,6 +524,7 @@ def CDLHIKKAKE(data):
     Returns:
         pd.Series: A pandas Series indicating where the Hikkake Pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Open'] > data['Close']) &
@@ -512,6 +542,7 @@ def CDLHIKKAKEMOD(data):
     Returns:
         pd.Series: A pandas Series indicating where the Modified Hikkake Pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Open'] > data['Close']) &
@@ -529,6 +560,7 @@ def CDLHOMINGPIGEON(data):
     Returns:
         pd.Series: A pandas Series indicating where the Homing Pigeon pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Close'] == data['Open']) &
@@ -546,6 +578,7 @@ def CDLIDENTICAL3CROWS(data):
     Returns:
         pd.Series: A pandas Series indicating where the Identical Three Crows pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Close'].shift(2) < data['Open'].shift(2)) &
@@ -566,6 +599,7 @@ def CDLINNECK(data):
     Returns:
         pd.Series: A pandas Series indicating where the In-Neck Pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Open'] > data['Close']) &
@@ -583,6 +617,7 @@ def CDLINVERTEDHAMMER(data):
     Returns:
         pd.Series: A pandas Series indicating where the Inverted Hammer pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] > data['Open']) &
         (data['High'] - data['Close'] > (data['Close'] - data['Open']) * 1.5) &
@@ -599,6 +634,7 @@ def CDLKICKING(data):
     Returns:
         pd.Series: A pandas Series indicating where the Kicking pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Open'].shift(1) < data['Close'].shift(1)) &
         (data['Close'] > data['Open']) &
@@ -616,6 +652,7 @@ def CDLKICKINGBYLENGTH(data):
     Returns:
         pd.Series: A pandas Series indicating where the Kicking - bull/bear determined by the longer marubozu pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Open'].shift(1) < data['Close'].shift(1)) &
         (data['Close'] > data['Open']) &
@@ -633,6 +670,7 @@ def CDLLADDERBOTTOM(data):
     Returns:
         pd.Series: A pandas Series indicating where the Ladder Bottom pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Open'] > data['Close']) &
@@ -650,6 +688,7 @@ def CDLLONGLEGGEDDOJI(data):
     Returns:
         pd.Series: A pandas Series indicating where the Long Legged Doji pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] == data['Open']) &
         (data['High'] - data['Close'] > (data['Close'] - data['Open']) * 1.5) &
@@ -666,6 +705,7 @@ def CDLMARUBOZU(data):
     Returns:
         pd.Series: A pandas Series indicating where the Marubozu pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Open'] == data['Low']) &
         (data['Close'] == data['High'])
@@ -681,6 +721,7 @@ def CDLMASTAR(data):
     Returns:
         pd.Series: A pandas Series indicating where the Mat Hold pattern is present.
     """
+    data = solve_case(data)
     # Ensure there are at least 5 data points for the pattern
     if len(data) < 5:
         return pd.Series([0] * len(data), index=data.index)
@@ -715,6 +756,7 @@ def CDLMATHOLD(data):
     Returns:
         pd.Series: A pandas Series indicating where the Mat Hold pattern is present.
     """
+    data = solve_case(data)
     # Ensure there are at least 5 data points for the pattern
     if len(data) < 5:
         return pd.Series([0] * len(data), index=data.index)
@@ -749,6 +791,7 @@ def CDLMEETINGLINES(data):
     Returns:
         pd.Series: A pandas Series indicating where the Meeting Lines pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Close'] < data['Open']) &
@@ -766,6 +809,7 @@ def CDLMORNINGDOJISTAR(data):
     Returns:
         pd.Series: A pandas Series indicating where the Morning Doji Star pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Close'] == data['Open']) &
@@ -783,6 +827,7 @@ def CDLMORNINGSTAR(data):
     Returns:
         pd.Series: A pandas Series indicating where the Morning Star pattern is present.
     """
+    data = solve_case(data)
     # Ensure there are at least 3 data points for the pattern
     if len(data) < 3:
         return pd.Series([0] * len(data), index=data.index)
@@ -812,6 +857,7 @@ def CDLONNECK(data):
     Returns:
         pd.Series: A pandas Series indicating where the On-Neck Pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) > data['Open'].shift(1)) &
         (data['Open'] > data['Close']) &
@@ -829,6 +875,7 @@ def CDLOPENINGMARUBOZU(data):
     Returns:
         pd.Series: A pandas Series indicating where the Opening Marubozu pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Open'] == data['Low']) &
         (data['Close'] > data['Open'])
@@ -844,6 +891,7 @@ def CDLOVERLAPPING(data):
     Returns:
         pd.Series: A pandas Series indicating where the Overlapping pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Open'] < data['Close'].shift(1)) &
         (data['Close'] > data['Open'].shift(1)) &
@@ -860,6 +908,7 @@ def CDLPIERCING(data):
     Returns:
         pd.Series: A pandas Series indicating where the Piercing Pattern is present.
     """
+    data = solve_case(data)
     # Ensure there are at least 2 data points for the pattern
     if len(data) < 2:
         return pd.Series([0] * len(data), index=data.index)
@@ -891,6 +940,7 @@ def CDLPREGNANT(data):
     Returns:
         pd.Series: A pandas Series indicating where the Pregnant pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Open'].shift(1) > data['Close'].shift(1)) &
         (data['Close'] > data['Open']) &
@@ -908,6 +958,7 @@ def CDLRICKSHAWMAN(data):
     Returns:
         pd.Series: A pandas Series indicating where the Rickshaw Man pattern is present.
     """
+    data = solve_case(data)
     # Ensure there are enough data points
     if len(data) < 1:
         return pd.Series([0] * len(data), index=data.index)
@@ -936,6 +987,7 @@ def CDLRISEFALL3METHODS(data):
     Returns:
         pd.Series: A pandas Series indicating where the Rising/Falling Three Methods pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Open'] < data['Close']) &
@@ -953,6 +1005,7 @@ def CDLSEPARATINGLINES(data):
     Returns:
         pd.Series: A pandas Series indicating where the Separating Lines pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Open'] < data['Close']) &
@@ -970,6 +1023,7 @@ def CDLSHOOTINGSTAR(data):
     Returns:
         pd.Series: A pandas Series indicating where the Shooting Star pattern is present.
     """
+    data = solve_case(data)
     # Ensure there are enough data points
     if len(data) < 1:
         return pd.Series([0] * len(data), index=data.index)
@@ -999,6 +1053,7 @@ def CDLSHORTLINE(data):
     Returns:
         pd.Series: A pandas Series indicating where the Short Line pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] > data['Open']) &
         (data['High'] - data['Close'] > (data['Close'] - data['Open']) * 1.5) &
@@ -1015,6 +1070,7 @@ def CDLSPINNINGTOP(data):
     Returns:
         pd.Series: A pandas Series indicating where the Spinning Top pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] > data['Open']) &
         (data['High'] - data['Close'] > (data['Close'] - data['Open']) * 1.5) &
@@ -1031,6 +1087,7 @@ def CDLSTALLEDPATTERN(data):
     Returns:
         pd.Series: A pandas Series indicating where the Stalled Pattern is present.
     """
+    data = solve_case(data)
     # Ensure there are enough data points
     if len(data) < 2:
         return pd.Series([0] * len(data), index=data.index)
@@ -1062,6 +1119,7 @@ def CDLSTICKSANDWICH(data):
     Returns:
         pd.Series: A pandas Series indicating where the Sticks Sandwich pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Close'] < data['Open']) &
@@ -1079,6 +1137,7 @@ def CDLSTICKSWITHIN(data):
     Returns:
         pd.Series: A pandas Series indicating where the Sticks Within pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Open'] < data['Open'].shift(1)) &
         (data['Close'] < data['Close'].shift(1)) &
@@ -1096,6 +1155,7 @@ def CDLTAKURI(data):
     Returns:
         pd.Series: A pandas Series indicating where the Takuri pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] > data['Open']) &
         (data['Open'] - data['Low'] > (data['Close'] - data['Open']) * 1.5) &
@@ -1112,6 +1172,7 @@ def CDLTASUKIGAP(data):
     Returns:
         pd.Series: A pandas Series indicating where the Tasuki Gaps pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Open'] < data['Close']) &
@@ -1129,6 +1190,7 @@ def CDLTHRUSTING(data):
     Returns:
         pd.Series: A pandas Series indicating where the Thrusting pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Open'] > data['Close']) &
@@ -1146,6 +1208,7 @@ def CDLTRISTAR(data):
     Returns:
         pd.Series: A pandas Series indicating where the Tri-Star pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] == data['Open']) &
         (data['Close'].shift(1) == data['Open'].shift(1)) &
@@ -1162,6 +1225,7 @@ def CDLUNIQUE3RIVER(data):
     Returns:
         pd.Series: A pandas Series indicating where the Unique Three River pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Close'].shift(2) < data['Open'].shift(2)) &
@@ -1181,6 +1245,7 @@ def CDLUPSIDEGAP2CROWS(data):
     Returns:
         pd.Series: A pandas Series indicating where the Upside Gap Two Crows pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Open'] < data['Close']) &
@@ -1198,6 +1263,7 @@ def CDLVALE(data):
     Returns:
         pd.Series: A pandas Series indicating where the Vale pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'].shift(1) < data['Open'].shift(1)) &
         (data['Close'] > data['Open']) &
@@ -1215,6 +1281,7 @@ def CDLVARIETY(data):
     Returns:
         pd.Series: A pandas Series indicating where the Variety pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] > data['Open']) &
         (data['Close'].shift(1) > data['Open'].shift(1)) &
@@ -1231,6 +1298,7 @@ def CDLWHITESOLDIER(data):
     Returns:
         pd.Series: A pandas Series indicating where the White Soldier pattern is present.
     """
+    data = solve_case(data)
     return (
         (data['Close'] > data['Open']) &
         (data['Close'].shift(1) > data['Open'].shift(1)) &
@@ -1247,6 +1315,7 @@ def CDLXSIDEGAP3METHODS(data):
     Returns:
         pd.Series: A pandas Series indicating where the Upside/Downside Gap Three Methods pattern is present.
     """
+    data = solve_case(data)
     # Ensure there are enough data points
     if len(data) < 5:
         return pd.Series([0] * len(data), index=data.index)
