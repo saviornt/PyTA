@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from column_case_solver import solve_case
+from .column_case_solver import solve_case
 
 def EMA(data, span=20, adjust=False):
     """
